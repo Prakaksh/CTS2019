@@ -1,0 +1,104 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>@Page.Title</title>
+    @RenderSection("head", required: false)
+
+    <link href="~/Scripts/StyleSheet1.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+        </head>
+        <body>
+            <div id="wrapper" class="animate">
+                <nav class="navbar header-top fixed-top navbar-expand-lg navbar-dark bg-dark">
+                    <span class="navbar-toggler-icon leftmenutrigger"></span>
+                    <a class="navbar-brand" href="#">LOGO</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarText">
+                       
+                        <ul class="navbar-nav animate side-nav">
+
+                            <li class="nav-item dropdown">
+
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                                    <span class="glyphicon glyphicon-folder-close">
+                                    </span>Content
+                                </a>
+
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-user"></i> Submenu <i class="fas fa-user shortmenu animate"></i>
+                                </a>
+                                <div class="dropdown-menu collapse active" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="#">Action</a>
+                                    <a class="dropdown-item" href="#">Another action</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="#">Something else here</a>
+                                </div>
+                            </li>
+
+                            @*<li  class="collapsed active">
+                                <a href="#"><i class="fa fa-gift fa-lg"></i> UI Elements <span class="arrow"></span></a>
+                            </li>*@
+                            
+
+                            <li class="nav-item collapsed active" data-toggle="collapse" data-target="#products">
+                                <a class="nav-link" href="#" title="Cart"><i class="fas fa-cart-plus"></i> Cart <i class="fas fa-cart-plus shortmenu animate"></i></a>
+                                <div class="dropdown-menu collapse active" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="#">Action</a>
+                                    <a class="dropdown-item" href="#">Another action</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="#">Something else here</a>
+                                </div>
+                                <ul class="collapse" id="products">
+                                    
+                                    <li class="active"><a href="#" class="nav-link">CSS3 Animation</a></li>
+                                    <li class="dropdown-item"><a href="#">General</a></li>
+                                    <li><a href="#">Buttons</a></li>
+                                    <li><a href="#">Tabs & Accordions</a></li>
+                                    <li><a href="#">Typography</a></li>
+                                    <li><a href="#">FontAwesome</a></li>
+                                    <li><a href="#">Slider</a></li>
+                                    <li><a href="#">Panels</a></li>
+                                    <li><a href="#">Widgets</a></li>
+                                    <li><a href="#">Bootstrap Model</a></li>
+                                </ul>
+
+
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" title="Comment"><i class="fas fa-comment"></i> Comment <i class="fas fa-comment shortmenu animate"></i></a>
+                            </li>
+                        </ul>
+                        <ul class="navbar-nav ml-md-auto d-md-flex">
+                            <li class="nav-item">
+                                <a class="nav-link" href="#"><i class="fas fa-user"></i> Profile</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#"><i class="fas fa-key"></i> Logout</a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+
+
+
+                <div>
+                    @RenderBody()
+                </div>
+            </div>
+        </body>
+        </html>
+        <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('.leftmenutrigger').on('click', function (e) {
+                    $('.side-nav').toggleClass("open");
+                    $('#wrapper').toggleClass("open");
+                    e.preventDefault();
+                });
+            });
+        </script>
