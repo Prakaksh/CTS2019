@@ -1,0 +1,144 @@
+﻿@model CTS2019.Models.BranchModel
+
+@{
+    Layout = "~/Views/Shared/_CTSLayout.cshtml";
+    ViewBag.Title = "GetBranchDetails";
+}
+
+<div class="container-fluid" id="divBranch">
+    @using (Ajax.BeginForm("CreateBank", "Bank", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "divBranch" }))
+    {
+        @Html.AntiForgeryToken()
+
+
+        <div class="row card">
+
+            <div class="col-md-12">
+                <div class="card-header card-header-text" data-background-color="red">
+                    <h4 class="card-title">Branch Creation Page</h4>
+                </div>
+            </div>
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="col-md-4">
+                <div class="form-group label-floating">
+                    <label class="control-label">
+                        City Code
+                        <small>*</small>
+                    </label>
+                    @Html.TextBoxFor(Model => Model.CityCode, new { @class = "form-control", required = "true", maxlength = 3 })
+                    @Html.ValidationMessageFor(model => model.CityCode, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group label-floating">
+                    <label class="control-label">
+                        Bank Code
+                        <small>*</small>
+                    </label>
+                    @Html.TextBoxFor(Model => Model.BankCode, new { @class = "form-control", required = "true", maxlength = 3 })
+                    @Html.ValidationMessageFor(model => model.BankCode, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group label-floating">
+                    <label class="control-label">
+                        Branch Code
+                        <small>*</small>
+                    </label>
+                    @Html.TextBoxFor(Model => Model.BranchCode, new { @class = "form-control", required = "true", maxlength = 3 })
+                    @Html.ValidationMessageFor(model => model.BranchCode, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+            <div class="col-md-4">
+                <div class="form-group label-floating">
+                    <label class="control-label">
+                        IFSC Code
+                    </label>
+                    @Html.TextBoxFor(Model => Model.IFSCCode, new { @class = "form-control", maxlength = 11 })
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group label-floating">
+                    <label class="control-label">
+                        Name of MICR Center
+
+                    </label>
+                    @Html.TextBoxFor(Model => Model.MICRName, new { @class = "form-control", maxlength = 50 })
+                    @Html.ValidationMessageFor(model => model.MICRName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group label-floating">
+                    <label class="control-label">
+                        Name of the Bank
+                        <small>*</small>
+                    </label>
+                    @Html.TextBoxFor(Model => Model.BankName, new { @class = "form-control", required = "true", maxlength = 150 })
+                    @Html.ValidationMessageFor(model => model.BankName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group label-floating">
+                    <label class="control-label">
+                        Name of the Branch
+                        <small>*</small>
+                    </label>
+                    @Html.TextBoxFor(Model => Model.BranchName, new { @class = "form-control", required = "true", maxlength = 150 })
+                    @Html.ValidationMessageFor(model => model.BranchName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-footer text-right">
+                <button type="submit" class="btn btn-rose btn-fill">Create</button>
+            </div>
+
+        </div>
+
+    }
+
+    <div class="row card">
+
+        <table class="table table-striped" id="tblBank">
+            <thead>
+                <tr>
+                    @*<th>@Html.DisplayNameFor(model => model.BankID)</th>*@
+                    <th>@Html.DisplayNameFor(model => model.CityCode)</th>
+                    <th>@Html.DisplayNameFor(model => model.BankCode)</th>
+                    <th>@Html.DisplayNameFor(model => model.BranchCode)</th>
+                    <th>@Html.DisplayNameFor(model => model.BankName)</th>
+                    <th>@Html.DisplayNameFor(model => model.BranchName)</th>
+                    @*<th>@Html.DisplayName("Active")</th>*@
+
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    var getlist = ViewBag.BranchList as IEnumerable<CTS2019.Models.BranchModel>;
+
+                    foreach (var item in getlist)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.CityCode)</td>
+                            <td>@Html.DisplayFor(modelItem => item.BankCode)</td>
+                            <td>@Html.DisplayFor(modelItem => item.BranchCode)</td>
+                            <td>@Html.DisplayFor(modelItem => item.BankName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.BranchName)</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

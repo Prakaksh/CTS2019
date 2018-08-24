@@ -1,0 +1,146 @@
+﻿@model CTS2019.Models.BankModel
+
+@{
+    ViewBag.Title = "GetBankDetails";
+    Layout = "~/Views/Shared/_CTSLayout.cshtml";
+}
+
+    <div class="container-fluid" id="divBank">
+    <div class="row card">
+
+        @*@using (Html.BeginForm("CreateBank", "Bank", FormMethod.Post))
+            {*@
+
+        @using (Ajax.BeginForm("CreateBank", "Bank", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "divBank" }))
+            {
+            @Html.AntiForgeryToken()
+            <div class="col-md-12">
+                <div class="card-header card-header-text" data-background-color="red">
+                    <h4 class="card-title">Bank Creation Page</h4>
+                </div>
+            </div>
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="col-md-4">
+                    <div class="form-group label-floating">
+                        <label class="control-label">
+                            Bank Code
+                            <small>*</small>
+                        </label>
+                        @Html.TextBoxFor(Model => Model.BankCode, new { @class = "form-control", required = "true", maxlength = 3,minlength="3" })
+                        @Html.ValidationMessageFor(model => model.BankCode, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group label-floating">
+                        <label class="control-label">
+                            Bank Name
+                            <small>*</small>
+                        </label>
+                        @Html.TextBoxFor(Model => Model.BankName, new { @class = "form-control", required = "true", maxlength = 150 })
+                        @Html.ValidationMessageFor(model => model.BankName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-footer text-right">
+                    <button type="submit" id="btnCreate" class="btn btn-rose btn-fill">Create</button>
+                </div>
+        }
+    </div>
+
+
+
+    <div class="row card">
+        <table class="table table-striped" id="tblBank">
+            <thead>
+                <tr>
+                    @*<th>@Html.DisplayNameFor(model => model.BankID)</th>*@
+                    <th>@Html.DisplayNameFor(model => model.BankCode)</th>
+                    <th>@Html.DisplayNameFor(model => model.BankName)</th>
+                    @*<th>@Html.DisplayName("Active")</th>*@
+
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    var getlist = ViewBag.BankList as IEnumerable<CTS2019.Models.BankModel>;
+
+                    foreach (var item in getlist)
+                    {
+                        <tr>
+                            @*<td>@Html.DisplayFor(modelItem => item.BankID)</td>*@
+                            <td>@Html.DisplayFor(modelItem => item.BankCode)</td>
+                            <td>@Html.DisplayFor(modelItem => item.BankName)</td>
+                            @*<td>@Html.DisplayFor(modelItem => item.Active.Value)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Published.Value)</td>
+                                <td>@Html.ActionLink("Details", "Details", new { id = item.ID })</td>*@
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+
+
+    <div>
+        @Html.ActionLink("Back to List", "GetBankDetails")
+    </div>
+</div>
+
+
+
+
+@section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
+
+@*<script>
+
+    $(document).ready(function () {
+        $('#tblBank').dataTable({
+            "aoColumnDefs": [{
+                'bSortable': false,
+                'aTargets': [2]
+            }],
+        });
+        $("#light").draggable();
+    });
+
+    $('#btnCreate').click(function () {
+     
+        $.ajax({
+            url: '@Url.Action("CreateBank")', // we are calling json method
+            dataType: 'json',
+            type: 'post',
+            contentType: 'application/json',
+            data: JSON.stringify({ "BankCode": $('#BankCode').val(), "BankName": $('#BankName').val() }),
+            processData: false,
+            success: function (data) {
+                debugger;
+                alert("success")
+                $('#response pre').html(JSON.stringify(data));
+            },
+            error: function (jqXhr, textStatus, errorThrown) {
+                console.log(errorThrown);
+            }
+        });
+    });
+
+
+
+</script>*@
+
+
+
+<script>
+    var onAjaxRequestSuccess = function (result) {
+        if (result = "success") {
+            debugger;
+            alert("Organization created successfuly")
+            $("#form0")[0].reset();
+          
+        }
+
+    }
+</script>
