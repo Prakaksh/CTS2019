@@ -7,6 +7,7 @@ using Dapper;
 using System.Data.SqlClient;
 using System.Data;
 
+
 namespace CTS2019.Repositories
 {
     public class BankContext
@@ -41,7 +42,7 @@ namespace CTS2019.Repositories
                 using (sqlConnection = SqlUtility.GetConnection())
                 {
                     var queryValues = sqlConnection.Query<int>("USP_AddBank",com, commandType: CommandType.StoredProcedure).FirstOrDefault();
-                    return AppUtility.getStatus(Convert.ToInt32(queryValues));
+                    return AppUtility.AppUtility.getStatus(Convert.ToInt32(queryValues));
                 }
 
             }
@@ -85,7 +86,7 @@ namespace CTS2019.Repositories
                 using (sqlConnection = SqlUtility.GetConnection())
                 {
                     var queryValues = sqlConnection.Query<int>("USP_AddBranch", commandType: CommandType.StoredProcedure).FirstOrDefault();
-                    return AppUtility.getStatus(Convert.ToInt32(queryValues));
+                    return AppUtility.AppUtility.getStatus(Convert.ToInt32(queryValues));
                 }
 
             }

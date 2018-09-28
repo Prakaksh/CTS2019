@@ -1,0 +1,1 @@
+{0_ChequeNo_6}{6_SortCode_9}{15_SerialNo_6}{21_TransCode_2}{23_Amount_18}{41_AccountNo_15}{56_PresentmentDate_8}{64_BranchCode_3}{67_Naration_25}{92_ImageF_36}{128_ImageB_36}{164_ImageG_36}

@@ -3,42 +3,102 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using CTS2019.Filters;
 using CTS2019.Models;
+using CTS2019.Repositories;
 
 namespace CTS2019.Controllers
 {
-    public class LoginController : Controller
+    public class LoginController : BaseController
     {
         // GET: Login
-        [AuthorizationFilter]
+        // [AuthorizationFilter]
         [HttpGet]
-
-        public ActionResult Index()
+        public ActionResult LoginPage()
         {
 
             return View();
         }
 
         // GET: Login
-        [AuthorizationFilter]
+        //[AuthorizationFilter]
         [HttpPost]
-       
-        public ActionResult Index(LoginModel model)
+        public ActionResult LoginPage(Login objlogin)
         {
-          
-            //if (model.UserName == "hcsadmin" && model.Password == "12345")
-            //{
-            //    Session["UserID"] = Guid.NewGuid();
-            //}
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    LoginContext obj = new LoginContext();
 
+                    UserInfo objUser = obj.GetLogin(objlogin);
+                    if (objUser != null && objUser.Status != "0")
+                    {
+                        //Forms Authentication
+                        FormsAuthentication.SetAuthCookie(objUser.UserID, false);
+                        Session["UserID"] = objUser.UserID.ToString();
+                        //Session["OrganizationId"] = objUser.OrganizationID;
+                        Session["UserName"] = objUser.FirstName + " " + objUser.LastName;
+                        Session["RoleName"] = objUser.RoleName;
+                        Session["RoleTypeID"] = objUser.RoleTypeID;
+
+                        switch (objUser.RoleName)
+                        {
+                            case "Admin":
+                                return RedirectToAction("AdminDashboard", "Home");
+
+                            case "Manager":
+                                return RedirectToAction("OutwardPage", "Outward");
+
+                            case "SuperAdmin":
+                                return RedirectToAction("SuperAdminDashboard", "Home");
+                            case "0":
+                                ViewBag.Message = "Please enter valid credentials!";
+                                return View();
+
+                            default:
+                                return RedirectToAction("Login", "Login");
+                        }
+
+                    }
+
+                    else
+                    {
+                        ViewBag.Message = "Please enter valid credentials!";
+                    }
+                    return View();
+                }
+
+                catch (Exception ex)
+                {
+
+                }
+            }
+            else
+            {
+                return View();
+            }
             return View();
         }
 
-        public ActionResult Index1()
+        [HttpGet]
+        public ActionResult LogOut()
         {
-
-            return View();
+            Session.Abandon();
+            Session.Clear();
+            Response.Cookies.Clear();
+            Session.RemoveAll();
+            Session["UserID"] = null;
+            return RedirectToAction("LoginPage");
+            //return View("LoginPage");
         }
+
+
+  
     }
+
+
+
+
 }

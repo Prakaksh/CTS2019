@@ -1,0 +1,70 @@
+﻿@model CTS2019.Models.UploadImageModel
+@{
+    ViewBag.Title = "OutwardPage";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+<meta name="viewport" content="width=device-width" />
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+
+<script src="~/Scripts/umd/popper.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+@*<script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>*@
+<title>Outward</title>
+
+<div class="container-fluid">
+    <br />
+
+    <div class="card">
+        <div class="card-header">Image Upload Section</div>
+
+        @using (Html.BeginForm("UploadImage", "Outward", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+
+            <div class="card-body row col-md-12">
+                <div class="col-md-2">
+                    <button type="button" id="btnBatchno" class="form-control form-control-sm btn btn-outline-danger text-sm-center">Batch No</button>
+                </div>
+                <div class="col-md-1 text-hide">
+                    <label class="">125</label>
+                </div>
+
+                <div class="col-md-3 col-sm-3 col-lg-3 col-xl-3 col-3">
+
+                    @Html.EditorFor(model => model.File, new { htmlAttributes = new { @class = "form-control-file", @type = "file", required = "true", accept = ".txt", placeholder = "Choose Text file" } })
+                    <span class="custom-file-control form-control-file"></span>
+                    <label for="exampleInputFile">Text File input</label>
+                </div>
+
+
+                <div class="col-md-3 col-sm-3 col-lg-3 col-xl-3 col-3">
+                    @Html.EditorFor(model => model.File, new { htmlAttributes = new { @class = "form-control-file", @type = "file", multiple = "multiple", required = "true", accept = ".jpg,.jpeg,.tiff,.tif", placeholder = "Choose Scanned Cheque(s)" } })
+                    @*<input type="file" id="uploadfile" class="form-control" multiple required accept=".jpg,.jpeg,.tiff,.tif,.txt">*@
+                    <span class="custom-file-control form-control-file"></span>
+                    <label for="exampleInputFile">Image File input</label>
+                </div>
+                <div class="col-md-3 col-sm-3 col-lg-3 col-xl-3 col-3">
+                    <button type="submit" id="startUpload" class="form-control form-control-sm btn btn-outline-info text-sm-center">Start Upload</button>
+                </div>
+            </div>
+
+            <div id="divStatus">
+                @*@{ (!string.IsNullOrEmpty(ViewBag.Result) ? ViewBag.Result.ToString() : "")}*@
+                @ViewBag.Result
+            </div>
+            <div class="progress" hidden>
+                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
+            </div>
+        }
+    </div>
+</div>
+
+<script>
+    $('.custom-file-input').on('change', function () {
+        $(this).next('.form-control-file').addClass("selected").html($(this).val());
+    })
+
+    $("#btnBatchno").off()
+</script>

@@ -6,12 +6,12 @@ using System.Web;
 
 namespace CTS2019.Models
 {
-    public class LoginModel
+    public class Login
     {
         [Required]
         public string UserName { get; set; }
+
         [Required]
         public string Password { get; set; }
-
     }
 }

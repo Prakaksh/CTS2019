@@ -277,11 +277,14 @@
     <Content Include="Content\DataTables\swf\flashExport.swf" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\Images\blue_background.jpg" />
     <Content Include="Content\Images\UnauthorizedAccess.jpg" />
     <Content Include="ExternalDLL\Dapper.dll" />
     <Content Include="ExternalDLL\System.Web.Optimization.dll" />
+    <Content Include="FileConfiguration\ImageUploadConfiguration.txt" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="Global.asax" />
+    <Content Include="ProjectScript\Login\login.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -400,6 +403,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
@@ -421,20 +425,25 @@
     <Content Include="Scripts\popper-utils.js.map" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AppUtility.cs" />
+    <Compile Include="AppUtility\AppUtility.cs" />
+    <Compile Include="AppUtility\SqlUtility.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\BankController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BranchController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ImageDataController.cs" />
     <Compile Include="Controllers\LandingController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\OutwardController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Filters\AuthenticationFilter.cs.cs" />
     <Compile Include="Filters\AuthorizationFilter.cs" />
+    <Compile Include="Filters\SessionTimeoutAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -444,12 +453,15 @@
     <Compile Include="Models\BranchModel.cs" />
     <Compile Include="Models\DigitalCertificateModel.cs" />
     <Compile Include="Models\ErrorLogModel.cs" />
-    <Compile Include="Models\ImageDataModel.cs" />
-    <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\Login.cs" />
+    <Compile Include="Models\UploadImageModel.cs" />
+    <Compile Include="Models\UserInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\AuthorizationContext.cs" />
     <Compile Include="Repositories\BankContext.cs" />
     <Compile Include="Repositories\ImageDataContext.cs" />
+    <Compile Include="Repositories\LoginContext.cs" />
+    <Compile Include="Repositories\OutwardContext.cs" />
     <Compile Include="SqlUtility.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -470,13 +482,11 @@
     <Content Include="Views\Landing\LandingPage.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Views\Login\Index1.cshtml" />
-    <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
-    <Content Include="Views\Manage\ChangePassword.cshtml" />
-    <Content Include="Views\Manage\Index.cshtml" />
-    <Content Include="Views\Manage\ManageLogins.cshtml" />
-    <Content Include="Views\Manage\SetPassword.cshtml" />
-    <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
+    <Content Include="Views\Login\LoginPage.cshtml" />
+    <Content Include="Views\Outward\OutwardPage.cshtml" />
+    <Content Include="Views\Shared\_LayoutPage.cshtml" />
+    <Content Include="Views\Report\ReportPage.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -486,6 +496,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />

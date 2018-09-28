@@ -16,7 +16,7 @@ namespace CTS2019.Repositories
     {
         IDbConnection sqlConnection;
 
-        public string UploadImageData(List<ImageDataModel> insertImageData)
+        public string UploadImageData(List<UploadImageModel> insertImageData)
         {
             string status = string.Empty;
             DataTable dt = new DataTable();
@@ -35,9 +35,9 @@ namespace CTS2019.Repositories
 
                     });
 
-            foreach (ImageDataModel item in insertImageData)
+            foreach (UploadImageModel item in insertImageData)
             {
-                dt.Rows.Add(item.ImageName, item.ChequeNo, item.MICRCode, item.SerialNo, item.TransCode, item.Amount,
+                dt.Rows.Add(item.ImageName, item.ChequeNo, item.SortCode, item.SerialNo, item.TransCode, item.Amount,
                     item.PresentmentDate, item.ChequeType, item.BranchCode, item.AccountNo, item.Narration);
             }
             var Parameters = new DynamicParameters();
@@ -49,7 +49,7 @@ namespace CTS2019.Repositories
                 using (sqlConnection = SqlUtility.GetConnection())
                 {
                     var res = sqlConnection.Query<int>("ImageDataInsert", Parameters, commandType: CommandType.StoredProcedure).FirstOrDefault();
-                    status = AppUtility.getStatus(Convert.ToInt32(res)).ToString();
+                    status = AppUtility.AppUtility.getStatus(Convert.ToInt32(res)).ToString();
                 }
 
             }
@@ -60,7 +60,7 @@ namespace CTS2019.Repositories
             return status;
         }
 
-        public string UploadImage(List<UploadImageModel> insertImage)
+        public string UploadImage(List<UploadImage> insertImage)
         {
             string status = string.Empty;
             DataTable dt = new DataTable();
@@ -74,7 +74,7 @@ namespace CTS2019.Repositories
 
             //        });
 
-            foreach (UploadImageModel item in insertImage)
+            foreach (UploadImage item in insertImage)
             {
                 var Parameters = new DynamicParameters();
 
@@ -97,7 +97,7 @@ namespace CTS2019.Repositories
                     using (sqlConnection = SqlUtility.GetConnection())
                     {
                         var res = sqlConnection.Query<int>("USP_ImageUpdate", Parameters, commandType: CommandType.StoredProcedure).FirstOrDefault();
-                        status = AppUtility.getStatus(Convert.ToInt32(res)).ToString();
+                        status = AppUtility.AppUtility.getStatus(Convert.ToInt32(res)).ToString();
                     }
 
                 }

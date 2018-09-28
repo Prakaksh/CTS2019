@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
-
-namespace CTS2019
+namespace CTS2019.AppUtility
 {
     public class AppUtility
     {
@@ -30,5 +30,18 @@ namespace CTS2019
             }
             return str;
         }
+
+        public static string AppSettingsGet(string appKey)
+        {
+            try
+            {
+                return ConfigurationManager.AppSettings[appKey].ToString();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
     }
 }

@@ -9,13 +9,21 @@ namespace CTS2019
 {
     public class SqlUtility
     {
-        private static readonly string StaffManagementConnectionString = SqlUtility.GetConnectionStringValue("CTSConnectionString");
-
-        public static SqlConnection GetConnection()
+        private static readonly string CTSConnectionString = SqlUtility.GetConnectionStringValue("CTSConnectionString");
+        private static readonly string OutWardConnectionString = SqlUtility.GetConnectionStringValue("OutwardConnectionString");
+        
+        public static SqlConnection GetConnection(string strConnection="")
         {
-            var connection = new SqlConnection(StaffManagementConnectionString);
-
-            connection.Open();
+            SqlConnection connection;
+            if (strConnection == "CTS") {
+                connection = new SqlConnection(CTSConnectionString);
+                connection.Open();
+            }
+            else
+            {
+                connection = new SqlConnection(OutWardConnectionString);
+                connection.Open();
+            }
             return connection;
         }
 

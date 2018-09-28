@@ -22,7 +22,7 @@ namespace CTS2019.Controllers
         }
         // GET: ImageDataUpload
         [HttpPost]
-        public ActionResult ImageDataUpload(HttpPostedFileBase File, ImageDataModel ImageData)
+        public ActionResult ImageDataUpload(HttpPostedFileBase File, UploadImageModel ImageData)
         {
             if (ModelState.IsValid)
             {
@@ -54,15 +54,15 @@ namespace CTS2019.Controllers
                                 var TextData = System.IO.File.ReadLines(Server.MapPath("~/uploadedfile/" + filename)).Select(r => r.TrimEnd('\n'))
                           .Select(line => line.Split('|'))
                           .ToList();
-                                List<ImageDataModel> ImageDataList = new List<ImageDataModel>();
+                                List<UploadImageModel> ImageDataList = new List<UploadImageModel>();
                                 foreach (string[] line in TextData)
                                 {
                                     if (line[0] != "" && line[0] != null)
                                     {
-                                        ImageData = new ImageDataModel();
+                                        ImageData = new UploadImageModel();
                                         ImageData.ImageName = line[0].Replace("F","").Replace("B","").Replace("G","");
                                         ImageData.ChequeNo = line[1];
-                                        ImageData.MICRCode = line[2];
+                                        ImageData.SortCode = line[2];
                                         ImageData.SerialNo = line[3];
                                         ImageData.TransCode = line[4];
                                         ImageData.AccountType = line[5];
@@ -108,7 +108,7 @@ namespace CTS2019.Controllers
 
 
         [HttpPost]
-        public ActionResult UploadImage(List<HttpPostedFileBase> file, UploadImageModel obj)
+        public ActionResult UploadImage(List<HttpPostedFileBase> file, UploadImage obj)
         {
 
             if (ModelState.IsValid)
@@ -122,7 +122,7 @@ namespace CTS2019.Controllers
                         FileInfo fileInfo = new FileInfo(Server.MapPath("~/uploadedfile/"));
                         if (!fileInfo.Exists)
                             Directory.CreateDirectory(fileInfo.Directory.FullName);
-                        List<UploadImageModel> ImageDataList1 = new List<UploadImageModel>();
+                        List<UploadImage> ImageDataList1 = new List<UploadImage>();
                         List<UploadImageModel> ImageDataListBack = new List<UploadImageModel>();
                         for (int i = 0; i < Request.Files.Count; i++)
                         {
@@ -143,7 +143,7 @@ namespace CTS2019.Controllers
                                 if (type == "image/jpg" || type == "image/jpeg" || type == "image/tiff" || type == "image/tif")
                                 {
                                     var filename = Path.GetFileName(Inputfile.FileName);
-                                    obj = new UploadImageModel();
+                                    obj = new UploadImage();
                                    // var Filetype = filename.Contains("F") ? "F" : "B";
                                    // obj.ImageName = filename.Replace("F", "").Replace("B", "").Replace("G", "");
                                     string extension = Path.GetExtension(filename).ToLower();
@@ -204,40 +204,6 @@ namespace CTS2019.Controllers
             return View();
         }
 
-        [HttpGet]
-        public ActionResult GetImage()
-        {
-            List<UploadImageModel> hcs = objImageData.GetImage();
-            foreach (UploadImageModel item in hcs)
-            {
-                byte[] bitmap = item.FrontBWImg;
-                FileInfo filename = new FileInfo(Server.MapPath("~/uploadedfile/"));
-
-                using (Image image = Image.FromStream(new MemoryStream(bitmap)))
-                {
-                    image.Save(filename+"output.jpg", ImageFormat.Jpeg);  // Or Png
-                }
-
-            }
-
-            //FileInfo fileInfo = new FileInfo(Server.MapPath("~/uploadedfile/"));
-            // using (Image image = Image.FromStream(new MemoryStream(bitmap)))
-            // {
-            //     image.Save("output.jpg", ImageFormat.Jpeg);  // Or Png
-            // }
-            // BinaryReader br = new BinaryReader(fs);
-            // byte[] bytes = br.ReadBytes((Int32)fs.Length);
-
-            // //Save the Byte Array as File.
-            // string filePath = "~/Files/" + Path.GetFileName("hcs")+".jpg";
-            //     File.WriteAllBytes(Server.MapPath(filePath), bytes);
-
-
-            // Checking Directory exist or not if not exist create the folder inside the server root 
-            FileInfo fileInfo = new FileInfo(Server.MapPath("~/uploadedfile/"));
-
-
-            return View();
-        }
+      
     }
 }
