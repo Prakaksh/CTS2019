@@ -3,16 +3,24 @@
     ViewBag.Title = "OutwardPage";
     Layout = "~/Views/Shared/_LayoutPage.cshtml";
 }
-<meta name="viewport" content="width=device-width" />
-<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
-<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/ProjectScript/common.js"></script>
 
-<script src="~/Scripts/umd/popper.min.js"></script>
-<script src="~/Scripts/bootstrap.min.js"></script>
-<link href="~/Content/font-awesome.min.css" rel="stylesheet" />
 @*<script src="~/Scripts/jquery.validate.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>*@
 <title>Outward</title>
+
+<style>
+    .tdhead {
+        font-family: Verdana;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .tdheadstyle {
+        font-family: Verdana;
+        font-size: 12px;
+    }
+</style>
 
 <div class="container-fluid">
     <br />
@@ -24,16 +32,23 @@
         {
 
             <div class="card-body row col-md-12">
-                <div class="col-md-2">
-                    <button type="button" id="btnBatchno" class="form-control form-control-sm btn btn-outline-danger text-sm-center">Batch No</button>
+                <div class="col-md-1">
+                    <button type="button" id="btnBatchno" class="btn btn-outline-danger btn-sm">Batch No</button>
+
                 </div>
-                <div class="col-md-1 text-hide">
-                    <label class="">125</label>
+                <div class="col-md-1 col-sm-1 col-lg-1 col-xl-1 text-center">
+
+                    <span class="btn btn-outline-primary btn-sm" id="BatchNoShow" hidden></span>
+
                 </div>
 
                 <div class="col-md-3 col-sm-3 col-lg-3 col-xl-3 col-3">
 
                     @Html.EditorFor(model => model.File, new { htmlAttributes = new { @class = "form-control-file", @type = "file", required = "true", accept = ".txt", placeholder = "Choose Text file" } })
+
+                    @*@Html.EditorFor(model => model.BatchNo, new { htmlAttributes = new { @class = "form-control-file hide"} })*@
+
+                    @Html.HiddenFor(model => model.BatchNo)
                     <span class="custom-file-control form-control-file"></span>
                     <label for="exampleInputFile">Text File input</label>
                 </div>
@@ -45,26 +60,134 @@
                     <span class="custom-file-control form-control-file"></span>
                     <label for="exampleInputFile">Image File input</label>
                 </div>
-                <div class="col-md-3 col-sm-3 col-lg-3 col-xl-3 col-3">
-                    <button type="submit" id="startUpload" class="form-control form-control-sm btn btn-outline-info text-sm-center">Start Upload</button>
+                <div class="col-md-2 col-sm-2 col-lg-2 col-xl-2 col-2">
+                    <button type="submit" id="startUpload" class="btn btn-outline-info btn-sm">Start Upload</button>
+                </div>
+
+                <div class="col-md-2 col-sm-2 col-lg-2 col-xl-2 col-2">
+                    <a href="@Url.Action("OutwardPage", "Outward")" id="btnRefresh" class="btn btn-outline-primary btn-sm">Try Again </a>
+                </div>
+
+            </div>
+            <hr />
+            <div class="col-12">
+                <div class="col-md-4 col-sm-4 col-lg-4 col-xl-4 col-md-auto alert alert-success btn-sm" hidden id="viewMessage">
+                    <strong id="successMessage"></strong>
+                    <button type="button" class="close bnt-sm center" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
             </div>
+            <div class="col-12">
+                <div class="col-md-6 col-sm-4 col-lg-6 col-xl-6 col-md-auto alert alert-warning btn-sm" id="warningMessage" hidden>
+                    <strong id="errorMessage"></strong>
+                    <button type="button" class="close bnt-sm center" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+            <div class="container-fluid">
+                @{
+                                
+                    if (ViewBag.FailedCheque != null && (Enumerable.Count(ViewBag.FailedCheque) > 0))
+                                {
 
-            <div id="divStatus">
-                @*@{ (!string.IsNullOrEmpty(ViewBag.Result) ? ViewBag.Result.ToString() : "")}*@
-                @ViewBag.Result
+
+                        <div class="col-md-12 col-lg-12 col-sm-12 col-xl-12 table-responsive" hidden id="tbl-failedcheque">
+                            <span class="alert-warning form-control-sm">Failed Cheque List  @ViewBag.Count</span>
+                            <table class="table table-bordered table-hover">
+                                <thead class="thead-dark">
+                                    <tr class="text-primary">
+                                        <td class="tdhead">SlNo</td>
+                                        <td class="tdhead">CheqeNo</td>
+                                        <td class="tdhead">SortCode</td>
+                                        <td class="tdhead">SerialNo</td>
+                                        <td class="tdhead">TransCode</td>
+                                        <td class="tdhead">FrontName</td>
+                                        <td class="tdhead">BackName</td>
+                                        <td class="tdhead">GrayName</td>
+                                    </tr>
+                                </thead>
+                                @{
+                                    if (ViewBag.FailedCheque != null)
+                                    {
+                                        int Count = 1;
+                                        foreach (var item in ViewBag.FailedCheque)
+                                        {
+                                            <tr>
+                                                <td class="tdheadstyle">@Count</td>
+                                                <td class="tdheadstyle">@item.ChequeNo</td>
+                                                <td class="tdheadstyle">@item.SortCode</td>
+                                                <td class="tdheadstyle">@item.SerialNo</td>
+                                                <td class="tdheadstyle">@item.TransCode</td>
+                                                <td class="tdheadstyle">@item.imgFront</td>
+                                                <td class="tdheadstyle">@item.imgBack</td>
+                                                <td class="tdheadstyle">@item.imgGray</td>
+                                            </tr>
+                                            Count++;
+                                        }
+                        //ViewBag.Count= Count;
+                    }
+                                }
+
+                            </table>
+
+                        </div>
+
+                    }
+                }
+
             </div>
             <div class="progress" hidden>
                 <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
             </div>
+
         }
     </div>
 </div>
 
+
+
 <script>
+    $(document).ready(function () {
+        //$("#warningMessage").attr("hidden", true);
+        //$("#errorMessage").attr("hidden", true);
+        $("#startUpload").attr("disabled", true)
+        var UploadResult = '@ViewBag.Result'
+        if (UploadResult != "" && UploadResult == "Success") {
+            $("#successMessage").text("File uploaded successfully.")
+            $("#viewMessage").attr("hidden", false);
+            $("#tbl-failedcheque").attr("hidden", false);
+        }
+        else if (UploadResult!=""){
+            $("#errorMessage").text("Could not find file Cheque configuration file is Missing. Please Contact your Administrator!!!")
+            $("#warningMessage").attr("hidden", false);
+        }
+    })
     $('.custom-file-input').on('change', function () {
         $(this).next('.form-control-file').addClass("selected").html($(this).val());
     })
 
-    $("#btnBatchno").off()
+
+    $("#btnBatchno").off("click").on("click", function () {
+
+        fnAjax("/Outward/BatchNoGet", "GET", null, fnSuccess, fnError)
+
+    });
+
+    function fnSuccess(res)
+    {
+        if (res != "" && res != null)
+            $("#startUpload").attr("disabled", false)
+
+        $("#BatchNoShow").text(res).attr("hidden",false);
+        $("#BatchNo").val(res);
+        $("#tbl-failedcheque").attr("hidden", true);
+        $("#viewMessage").attr("hidden", true);
+        $("#warningMessage").attr("hidden", true);
+
+    }
+    function fnError() {
+
+    }
 </script>

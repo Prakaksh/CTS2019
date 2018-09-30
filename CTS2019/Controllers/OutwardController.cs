@@ -39,9 +39,8 @@ namespace CTS2019.Controllers
         {
             HttpPostedFileBase MICRFile = null;
             string strMICRPath = "";
+            
             UploadImageModel objImage;
-            //if (ModelState.IsValid)
-            //{
             try
             {
                 //Get Session information of Loggedin user
@@ -61,9 +60,7 @@ namespace CTS2019.Controllers
                 {
 
                     List<string> listCheque = System.IO.File.ReadLines(strMICRPath)
-                                        .Select(r => r.TrimEnd('\n'))
-                                        //.Select(line => line.Split('|'))
-                                        .ToList();
+                                        .Select(r => r.TrimEnd('\n')).ToList();
                     string line;
                     StreamReader file2 = new StreamReader(Server.MapPath("~/FileConfiguration/ImageUploadConfiguration.txt"));
                     while ((line = file2.ReadLine()) != null)
@@ -82,7 +79,7 @@ namespace CTS2019.Controllers
                     }
 
                     List<UploadImageModel> ImageList = new List<UploadImageModel>();
-                    List<string> FailedChequeList = new List<string>();
+                    List<UploadImageModel> FailedChequeList = new List<UploadImageModel>();
 
                     foreach (string chequeLine in listCheque)
                     {
@@ -90,7 +87,12 @@ namespace CTS2019.Controllers
                         {
                             string[] strColumn = columns.Where(x => x.Contains("ChequeNo")).FirstOrDefault().Split('_');
                             objImage = new UploadImageModel();
+                            
                             objImage.ChequeNo = chequeLine.Substring(ChqNoStart, ChqNoEnd);
+                            objImage.SortCode = chequeLine.Substring(SortCodeStart, SortCodeEnd);
+                            objImage.SerialNo = chequeLine.Substring(SerialNoStart, SerialNoEnd);
+                            objImage.TransCode = chequeLine.Substring(TransStart, TransEnd);
+
                             objImage.imgFront = chequeLine.Substring(ImageFStart, ImageFEnd);
                             objImage.imgBack = chequeLine.Substring(ImageBStart, ImageBEnd);
                             objImage.imgGray = chequeLine.Substring(ImageGStart, ImageGEnd);
@@ -98,7 +100,7 @@ namespace CTS2019.Controllers
                             //When there is any mismatch of a Cheque with image
                             if (string.IsNullOrEmpty(objImage.imgFront) || string.IsNullOrEmpty(objImage.imgBack) || string.IsNullOrEmpty(objImage.imgGray))
                             {
-                                FailedChequeList.Add(objImage.ChequeNo);
+                                FailedChequeList.Add(objImage);
                                 continue;
                             }
 
@@ -110,18 +112,17 @@ namespace CTS2019.Controllers
                             //When there is any mismatch of a Cheque with image
                             if (objImage.imgFrontByte == null || objImage.imgBackByte == null || objImage.imgGrayByte == null)
                             {
-                                FailedChequeList.Add(objImage.ChequeNo);
+                                FailedChequeList.Add(objImage);
                                 continue;
                             }
-
-                            objImage.SortCode = chequeLine.Substring(SortCodeStart, SortCodeEnd);
-                            objImage.SerialNo = chequeLine.Substring(SerialNoStart, SerialNoEnd);
-                            objImage.TransCode = chequeLine.Substring(TransStart, TransEnd);
+                          
                             objImage.Amount = Convert.ToInt64(chequeLine.Substring(AmtStart, AmtEnd));
                             objImage.AccountNo = chequeLine.Substring(AccStart, AccEnd);
                             objImage.PresentmentDate = chequeLine.Substring(DateStart, DateEnd);
                             objImage.BranchCode = chequeLine.Substring(BranchCodeStart, BranchCodeEnd);
                             objImage.Narration = chequeLine.Substring(NarationStart, NarationEnd);
+                            objImage.BatchNo = obj.BatchNo;
+
 
                             //Sending to DBContext
                             objContext = new OutwardContext();
@@ -132,19 +133,38 @@ namespace CTS2019.Controllers
                         }
                     } // foreach end
 
-                    ViewBag.FileStatus = "File uploaded successfully.";
+
+                    ViewBag.FailedCheque = FailedChequeList;
+                    //ViewBag.FileStatus = "File uploaded successfully.";
                 }
             }
             catch (Exception ex)
             {
                 ViewBag.Result = ex.Message;
+                return View("OutwardPage");
                 //return Json(ex.Message.ToString(), JsonRequestBehavior.AllowGet);
             }
             ViewBag.Result = "Success";
+           
             return View("OutwardPage");
             //return Json("Success", JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
+        public JsonResult BatchNoGet()
+        {
+            int BatchNo = 100;
+            objContext = new OutwardContext();
+            try
+            {
+                BatchNo = objContext.BatchNoGet();
+            }
+            catch (Exception ex)
+            {
+                return Json("Failure");
+            }
+            return Json(BatchNo, JsonRequestBehavior.AllowGet);
+        }
 
 
         //Uploading MICR to directory
@@ -166,16 +186,23 @@ namespace CTS2019.Controllers
 
         internal byte[] FileBinaryGet(HttpPostedFileBase postedFile)
         {
+            byte[] bytes = null;
             try
             {
-                //Read the uploaded File as Byte Array from FileUpload control.
-                Stream fs = postedFile.InputStream;
-                BinaryReader br = new BinaryReader(fs);
-                byte[] bytes = br.ReadBytes((Int32)fs.Length);
-                return bytes;
+                if (postedFile != null)
+                {
+                    //Read the uploaded File as Byte Array from FileUpload control.
+                    Stream fs = postedFile.InputStream;
+                    BinaryReader br = new BinaryReader(fs);
+                    bytes = br.ReadBytes((Int32)fs.Length);
+                    return bytes;
+                }
+                else
+                    return bytes;
             }
             catch (Exception)
             {
+                    
                 throw;
             }
         }

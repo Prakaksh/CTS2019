@@ -2,8 +2,6 @@
 @{
     Layout = null;
 }
-
-
 <meta name="viewport" content="width=device-width" />
 <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
 <script src="~/Scripts/jquery-3.3.1.min.js"></script>
@@ -28,35 +26,19 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="col-md-12">
-                      
-                            @*@using (Ajax.BeginForm(
-                            new AjaxOptions
-                            {
-                                HttpMethod = "post",
-                                Url = "LoginPage",
-                                InsertionMode = InsertionMode.Replace,
-                                OnSuccess = "onAjaxRequestSuccess"
-
-                            }))
-
-                            {*@ 
                          @using (Html.BeginForm())
 
                          {
                                 <div class="form-group">
                                     <br />
                                     @Html.TextBoxFor(Model => Model.UserName, new { @class = "form-control form-control-sm mb-2 mr-sm-2", required = "true", maxlength = 25, placeholder = "Enter user name *" })
-                                    @*<input type="text" class="form-control form-control-sm mb-2 mr-sm-2 " id="UserName" placeholder="Enter user name *" required maxlength="25">*@
-                                    @*<input type="password" class="form-control form-control-sm mb-2 mr-sm-2" id="txtPassword" placeholder="Enter password *" required maxlength="25">*@
                                     @Html.PasswordFor(Model => Model.Password, new { @class = "form-control form-control-sm mb-2 mr-sm-2", required = "true", maxlength = 25, placeholder = "Enter password *" })
                                     <button type="submit" id="btnLogin" class="btn btn-outline-primary form-control-sm col-md-12 mb-2 mr-sm-2">Login</button>
-
                                     <div class="col-md-12 alert alert-danger form-control text-sm-center" hidden id="viewbagMessage">
                                         <strong>@ViewBag.Message</strong>
                                     </div>
                                 </div>
                          }
-                        @*</form>*@
                     </div>
                 </div>
             </div>
@@ -64,20 +46,15 @@
     </div>
 </div>
 <script>
-    $(document).ready(function () {
 
-        //Show the Invalid Credential message from ViewBag after login failed
-        var message = '@ViewBag.Message' //Accessing  the Json Object from ViewBag from the ViewBag
-        if (message != "") {
-            $("#viewbagMessage").attr("hidden", false);
-            setTimeout(function () {
-                $('#viewbagMessage').fadeOut('fast');
-            }, 10000); // <-- time in milliseconds
-        }
-           
-    });
-
-
+$(document).ready(function () {
+    //Show the Invalid Credential message from ViewBag after login failed
+    var message = '@ViewBag.Message' //Accessing  the Json Object from ViewBag from the ViewBag
+    if (message != "") {
+        $("#viewbagMessage").attr("hidden", false);
+        //setTimeout(function () {
+        //    $('#viewbagMessage').fadeOut('fast');
+        //}, 10000); // <-- time in milliseconds
+    }
+});
 </script>
-
-<script src="~/ProjectScript/Login/login.js"></script>

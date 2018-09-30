@@ -2,28 +2,28 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-    @*@Styles.Render("~/Content/css")*@
+    @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/boostrap")
+
 </head>
 
-<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
-<script src="~/Scripts/jquery-3.3.1.min.js"></script>
-
-<script src="~/Scripts/umd/popper.min.js"></script>
-<script src="~/Scripts/bootstrap.min.js"></script>
-<link href="~/Content/font-awesome.min.css" rel="stylesheet" />
 <body style="background-color:azure">
     <div class="container-fluid">
-        <div class="offset-12">
-            <nav class="text-right">
-                <a class="nav-link" href="@Url.Action("LogOut","Login")"><i class="fa-key"></i> Logout</a>
-            </nav>
+        <div class="rown avbar navbar-expand-md navbar-dark fixed-top bg-secondary">
+            <div class="offset-11">
+                <nav class="text">
+                    <a class="btn btn-outline-success my-2 my-sm-0" href="@Url.Action("LogOut","Login")"><i class="fa-key"></i> Logout</a>
+                </nav>
+            </div>
         </div>
-        <div class="card col-md-12" style="margin-top:30px">
+
+        <div class="card col-md-12" style="margin-top:40px">
             <nav>
                 <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                    <a class="nav-item nav-link active btn-outline-dark" id="nav-outward-tab" href="@Url.Action("OutwardPage","Outward")" role="tab" aria-controls="nav-home" aria-selected="true">Outward</a>
-                    <a class="nav-item nav-link btn-outline-dark" id="nav-report-tab" href="@Url.Action("ReportPage","Report")" role="tab" aria-controls="nav-profile" aria-selected="false">Report</a>
+                    <a class="nav-item nav-link active btn-outline-dark btn-sm" id="nav-outward-tab" href="@Url.Action("OutwardPage","Outward")" role="tab" aria-controls="nav-home" aria-selected="true">Outward</a>
+                    <a class="nav-item nav-link btn-outline-dark btn-sm" id="nav-report-tab" href="@Url.Action("ReportPage","Report")" role="tab" aria-controls="nav-profile" aria-selected="false">Report</a>
                 </div>
             </nav>
             <div>
@@ -33,9 +33,15 @@
             <br />
             <br />
         </div>
+        <footer class="card-footer fixed-bottom text-center">
+            <div class="container">
+               
+            </div>
+        </footer>
        
-    </div>
 
-  
+        
+    </div>
+    
 </body>
 

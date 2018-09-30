@@ -21,7 +21,7 @@ namespace CTS2019.Repositories
                 Parameters.Add("Img_Back_Byte", obj.imgBackByte);
                 Parameters.Add("Img_Gray_Byte", obj.imgGrayByte);
                 //Parameters.Add("MICR", "");
-                Parameters.Add("BatchNo", "100");
+                Parameters.Add("BatchNo", obj.BatchNo);
                 Parameters.Add("ChequeNo", obj.ChequeNo);
                 Parameters.Add("SortCode", obj.SortCode);
                 Parameters.Add("SerialNo", obj.SerialNo);
@@ -56,6 +56,27 @@ namespace CTS2019.Repositories
                 throw ex;
             }
             return "success";
+        }
+
+
+        internal int BatchNoGet()
+        {
+            int BatchNo = 100;
+            try
+            {
+
+                using (sqlConnection = SqlUtility.GetConnection("Outward"))
+                {
+                    BatchNo= (int)sqlConnection.Query<int>("USP_BatchNoGet", null, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+
+            return BatchNo;
         }
     }
 }

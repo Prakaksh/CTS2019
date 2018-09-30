@@ -17,7 +17,7 @@ namespace CTS2019.Models
         public string imgGray { get; set; }
         public byte[] imgFrontByte { get; set; }
         public byte[] imgBackByte { get; set; }
-        public byte[] imgGrayByte  { get; set; }
+        public byte[] imgGrayByte { get; set; }
 
         public string ChequeNo { get; set; }
         public string SortCode { get; set; }
@@ -30,8 +30,9 @@ namespace CTS2019.Models
         public string BranchCode { get; set; }
         public string AccountNo { get; set; }
         public string Narration { get; set; }
+        public int BatchNo { get; set; }
         //public List<UploadImage> Images { get; set; }
-       
+
     }
     public class UploadImage
     {
@@ -42,5 +43,15 @@ namespace CTS2019.Models
         public byte[] BackBWImg { get; set; }
         public byte[] FrontGrayImg { get; set; }
 
+
+    }
+
+    public class BatchNoModel
+    {
+
+        public string ChequeNo { get; set; }
+        public string SortCode { get; set; }
+        public string SerialNo { get; set; }
+        public string TransCode { get; set; }
     }
 }
