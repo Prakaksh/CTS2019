@@ -30,7 +30,7 @@
 
         @using (Html.BeginForm("UploadImage", "Outward", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
-
+            @Html.AntiForgeryToken();
             <div class="card-body row col-md-12">
                 <div class="col-md-1">
                     <button type="button" id="btnBatchno" class="btn btn-outline-danger btn-sm">Batch No</button>
@@ -88,9 +88,9 @@
             </div>
             <div class="container-fluid">
                 @{
-                                
+
                     if (ViewBag.FailedCheque != null && (Enumerable.Count(ViewBag.FailedCheque) > 0))
-                                {
+                    {
 
 
                         <div class="col-md-12 col-lg-12 col-sm-12 col-xl-12 table-responsive" hidden id="tbl-failedcheque">
@@ -126,8 +126,8 @@
                                             </tr>
                                             Count++;
                                         }
-                        //ViewBag.Count= Count;
-                    }
+                                        //ViewBag.Count= Count;
+                                    }
                                 }
 
                             </table>

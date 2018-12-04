@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace CTS2019.Controllers
 {
+    [SessionTimeout]
     public class OutwardController : BaseController
     {
         ImageDataContext objImageData = new ImageDataContext();
@@ -21,20 +22,16 @@ namespace CTS2019.Controllers
 
         // GET: Outward
         [HttpGet]
-        [SessionTimeout]
-        public ActionResult OutwardPage()
-        {
-            return View();
-        }
+        
+        public ActionResult OutwardPage() => View();
+
         // GET: Outward
         [HttpGet]
-        public ActionResult ImageUpload()
-        {
-            return View();
-        }
-
+        public ActionResult ImageUpload() => View();
+     
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult UploadImage(List<HttpPostedFileBase> file, UploadImageModel obj)
         {
             HttpPostedFileBase MICRFile = null;

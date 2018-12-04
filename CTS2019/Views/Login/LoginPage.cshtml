@@ -29,6 +29,7 @@
                          @using (Html.BeginForm())
 
                          {
+                            @Html.AntiForgeryToken();
                                 <div class="form-group">
                                     <br />
                                     @Html.TextBoxFor(Model => Model.UserName, new { @class = "form-control form-control-sm mb-2 mr-sm-2", required = "true", maxlength = 25, placeholder = "Enter user name *" })

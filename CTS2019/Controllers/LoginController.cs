@@ -15,15 +15,14 @@ namespace CTS2019.Controllers
         // GET: Login
         // [AuthorizationFilter]
         [HttpGet]
-        public ActionResult LoginPage()
-        {
-
-            return View();
-        }
+        
+        public ActionResult LoginPage() => View();
+     
 
         // GET: Login
         //[AuthorizationFilter]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult LoginPage(Login objlogin)
         {
             if (ModelState.IsValid)
